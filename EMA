@@ -1,0 +1,25 @@
+
+# Import necessary libraries
+import yfinance as yf
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Download TCS stock data for the last 6 months
+tcs = yf.Ticker("TCS.NS")
+tcs_data = tcs.history(period="6mo")
+
+# Calculate 20-day Exponential Moving Average (EMA)
+tcs_data["EMA_20"] = tcs_data["Close"].ewm(span=20, adjust=False).mean()
+
+# Plot TCS Closing Price and 20-Day EMA
+plt.figure(figsize=(12, 5))
+plt.plot(tcs_data.index, tcs_data["Close"], label="TCS Closing Price", color="blue")
+plt.plot(tcs_data.index, tcs_data["EMA_20"], label="20-Day EMA", linestyle="--", color="purple")
+
+# Add titles and labels
+plt.title("TCS Stock Price with 20-Day Exponential Moving Average")
+plt.xlabel("Date")
+plt.ylabel("Price (INR)")
+plt.legend()
+plt.grid(True)
+plt.show()
