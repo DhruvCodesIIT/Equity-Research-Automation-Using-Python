@@ -1,0 +1,26 @@
+# Import necessary libraries
+import yfinance as yf
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Download TCS stock data for the last 6 months
+tcs = yf.Ticker("TCS.NS")
+tcs_data = tcs.history(period="6mo")
+
+# Calculate 20-day and 50-day Simple Moving Averages
+tcs_data["SMA_20"] = tcs_data["Close"].rolling(window=20).mean() #adds a new column to tcs_data
+tcs_data["SMA_50"] = tcs_data["Close"].rolling(window=50).mean() #same, adds a new column
+
+# Plotting the closing price and SMAs
+plt.figure(figsize=(12, 6))
+plt.plot(tcs_data.index, tcs_data["Close"], label="TCS Closing Price", color="blue")
+plt.plot(tcs_data.index, tcs_data["SMA_20"], label="20-Day SMA", linestyle="--", color="red")
+plt.plot(tcs_data.index, tcs_data["SMA_50"], label="50-Day SMA", linestyle="--", color="green")
+
+# Add title and labels
+plt.title("TCS Stock Price with 20 & 50-Day Moving Averages")
+plt.xlabel("Date")
+plt.ylabel("Price (INR)")
+plt.legend()
+plt.grid(True)
+plt.show()
